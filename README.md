@@ -20,19 +20,14 @@ npm i clientlinker-flow-mysql --save
 
 ```javascript
 var clientlinker = require('clientlinker');
-var linker = clientlinker(
-{
+var linker = clientlinker({
 	flows: ['mysql'],
-	clients:
-	{
-		mysqlCustomClient:
-		{
+	clients: {
+		mysqlCustomClient: {
 			mysqlConfigFile: '/etc/dbconfig.conf',
 			mysqlConfigKey: 'DBItemName',
-			mysqlhandler:
-			{
-				clientHanlder:
-				{
+			mysqlhandler: {
+				clientHanlder: {
 					sql: 'SELECT `name` FROM `db_example` WHERE `id`= ?',
 					keys: ['id'],
 				}
@@ -40,7 +35,6 @@ var linker = clientlinker(
 		}
 	}
 });
-
 
 linker.loadFlow('mysql', 'clientlinker-flow-mysql', module);
 
