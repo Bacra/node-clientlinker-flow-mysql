@@ -1,6 +1,11 @@
 Clientlinker-flow-mysql
 ========================
 
+[![NPM Version][npm-image]][npm-url]
+[![NPM Downloads][downloads-image]][npm-url]
+[![NPM License][license-image]][npm-url]
+
+
 # Install
 
 Install `clientlinker` pkg
@@ -43,3 +48,10 @@ linker.loadFlow('mysql', 'clientlinker-flow-mysql', module);
 linker.run('mysqlCustomClient.clientHanlder', null, {id: 13})
 	.then(function(){});
 ```
+
+
+
+[npm-image]: http://img.shields.io/npm/v/i18nc-core.svg
+[downloads-image]: http://img.shields.io/npm/dm/i18nc-core.svg
+[npm-url]: https://www.npmjs.org/package/i18nc-core
+[license-image]: http://img.shields.io/npm/l/i18nc-core.svg
