@@ -11,7 +11,7 @@ Clientlinker-flow-mysql
 Install `clientlinker` pkg
 
 ```shell
-npm i clientlinker --save`
+npm i clientlinker --save
 ```
 
 Install flow pkg
