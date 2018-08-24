@@ -1,7 +1,7 @@
 var _		= require('lodash');
-var fs		= require('fs');
-var ini		= require('ini');
 var Promise	= require('bluebird');
+var fs		= Promise.promisifyAll(require('fs'));
+var ini		= require('ini');
 var debug	= require('debug')('clientlinker-flow-mysql');
 var mysql	= require('mysql');
 
@@ -80,13 +80,7 @@ function initPool(client)
 	// 如果有配置文件，优先使用配置文件
 	if (options.mysqlConfigFile && options.mysqlConfigKey)
 	{
-		getConfigPromise = new Promise(function(resolve, reject)
-			{
-				fs.readFile(options.mysqlConfigFile, {encoding: 'utf8'}, function(err, data)
-				{
-					err ? reject(err) : resolve(data);
-				});
-			})
+		getConfigPromise = fs.readFileAsync(options.mysqlConfigFile, {encoding: 'utf8'})
 			.then(function(data)
 			{
 				var json = ini.parse(data);
