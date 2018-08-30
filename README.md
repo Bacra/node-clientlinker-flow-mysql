@@ -26,19 +26,24 @@ npm i clientlinker-flow-mysql --save
 ```javascript
 var clientlinker = require('clientlinker');
 var linker = clientlinker({
-    flows: ['mysql'],
-    clients: {
-        mysqlCustomClient: {
-            mysqlConfigFile: '/etc/dbconfig.conf',
-            mysqlConfigKey: 'DBItemName',
-            mysqlhandler: {
-                clientHanlder: {
-                    sql: 'SELECT `name` FROM `db_example` WHERE `id`= ?',
-                    keys: ['id'],
-                }
-            }
-        }
-    }
+	flows: ['mysql'],
+	clients: {
+		mysqlCustomClient: {
+			mysqlConfigFile: '/etc/dbconfig.conf',
+			mysqlConfigKey: 'DBItemName',
+			mysqlhandler: {
+				clientHanlder: {
+					sql: 'SELECT `name` FROM `db_example` WHERE `id`= ?',
+					keys: ['id'],
+				},
+				subKeys: {
+					sql: 'INSERT INTO `db_example` (`name`, `value`) VALUES ?',
+					keys: ['info'],
+					subKeys: {info: ['name', 'value']}
+				}
+			}
+		}
+	}
 });
 
 linker.loadFlow('mysql', 'clientlinker-flow-mysql', module);
@@ -46,7 +51,14 @@ linker.loadFlow('mysql', 'clientlinker-flow-mysql', module);
 
 // use
 linker.run('mysqlCustomClient.clientHanlder', null, {id: 13})
-    .then(function(){});
+	.then(function(){});
+
+linker.run('mysqlCustomClient.subKeys', null, {info: {name: 1, value: 2}});
+linker.run('mysqlCustomClient.subKeys', null, {
+	info: [
+		{name: 1, value: 2},
+		{name: 2, value: 2}
+	]});
 ```
 
 

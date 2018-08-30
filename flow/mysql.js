@@ -5,8 +5,11 @@ var ini		= require('ini');
 var debug	= require('debug')('clientlinker-flow-mysql');
 var mysql	= require('mysql');
 
+exports = module.exports = mysql;
+exports._test = {};
 
-exports = module.exports = function mysql(runtime, callback)
+
+function mysql(runtime, callback)
 {
 	var client = runtime.client;
 	var options = client.options;
@@ -28,7 +31,7 @@ exports = module.exports = function mysql(runtime, callback)
 				{
 					if (err) return reject(err);
 
-					var values = translateValues(runtime.body, handlerConfig.keys);
+					var values = translateValues(runtime.body, handlerConfig.keys, handlerConfig.subKeys);
 
 					connection.query(handlerConfig.sql, values, function(err, results)
 					{
@@ -60,14 +63,12 @@ exports.methods = function(client)
 		});
 }
 
-
 function initPool(client)
 {
 	if (client.mysqlPool) return Promise.resolve(client.mysqlPool);
 
 	var options = client.options;
 	var getConfigPromise;
-
 
 	// 如果有配置文件，优先使用配置文件
 	if (options.mysqlConfigFile && options.mysqlConfigKey)
@@ -135,26 +136,45 @@ function initPool(client)
 	});
 }
 
-function translateValues(body, keys)
+
+exports._test.translateValues = translateValues;
+function translateValues(mainValues, mainKeys, subKeys)
 {
-	var values = [];
-	if (!body || !keys) return values;
+	var result = [];
+	if (!mainValues || !mainKeys) return result;
 
-	var isArrayBody = Array.isArray(body);
-	if (!isArrayBody) body = [body];
-
-	body.forEach(function(params)
+	mainKeys.forEach(function(name)
 	{
-		if (!params) return;
-
-		var tmpValues = [];
-		values.push(tmpValues);
-		keys.forEach(function(name)
+		var keys = subKeys && subKeys[name];
+		var value = mainValues[name];
+		if (keys)
 		{
-			tmpValues.push(params[name]);
-		});
-	});
-	if (!isArrayBody) values = values[0] || [];
+			var isValArray = Array.isArray(value);
+			if (!isValArray) value = [value];
 
-	return values;
+			var subVals = [];
+			value.forEach(function(params)
+			{
+				if (!params) return;
+
+				var tmpVal = [];
+				subVals.push(tmpVal);
+				keys.forEach(function(name)
+				{
+					tmpVal.push(params[name]);
+				});
+			});
+
+			if (isValArray)
+				result.push(subVals);
+			else
+				result.push(subVals[0] || []);
+		}
+		else
+		{
+			result.push(value);
+		}
+	});
+
+	return result;
 }
