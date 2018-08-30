@@ -28,15 +28,7 @@ exports = module.exports = function mysql(runtime, callback)
 				{
 					if (err) return reject(err);
 
-					var values = [];
-
-					if (handlerConfig.keys && runtime.body)
-					{
-						handlerConfig.keys.forEach(function(name)
-						{
-							values.push(runtime.body[name]);
-						});
-					}
+					var values = translateValues(runtime.body, handlerConfig.keys);
 
 					connection.query(handlerConfig.sql, values, function(err, results)
 					{
@@ -141,4 +133,28 @@ function initPool(client)
 
 		return client.mysqlPool;
 	});
+}
+
+function translateValues(body, keys)
+{
+	var values = [];
+	if (!body || !keys) return values;
+
+	var isArrayBody = Array.isArray(body);
+	if (!isArrayBody) body = [body];
+
+	body.forEach(function(params)
+	{
+		if (!params) return;
+
+		var tmpValues = [];
+		values.push(tmpValues);
+		keys.forEach(function(name)
+		{
+			tmpValues.push(params[name]);
+		});
+	});
+	if (!isArrayBody) values = values[0] || [];
+
+	return values;
 }
