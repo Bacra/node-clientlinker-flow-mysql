@@ -4,7 +4,6 @@ Clientlinker-flow-mysql
 [![NPM Version][npm-image]][npm-url]
 [![NPM Downloads][downloads-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
-<!-- [![Coveralls][coveralls-image]][coveralls-url] -->
 [![NPM License][license-image]][npm-url]
 
 
