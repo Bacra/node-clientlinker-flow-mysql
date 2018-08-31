@@ -7,11 +7,11 @@ var ini		= require('ini');
 var debug	= require('debug')('clientlinker-flow-mysql');
 var mysql	= require('mysql');
 
-exports = module.exports = mysql;
+exports = module.exports = mysqlFlow;
 exports._test = {};
 
 
-function mysql(runtime, callback)
+function mysqlFlow(runtime, callback)
 {
 	var client = runtime.client;
 	var options = client.options;
