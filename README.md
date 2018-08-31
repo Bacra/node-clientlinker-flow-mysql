@@ -5,7 +5,7 @@ Clientlinker-flow-mysql
 [![NPM Downloads][downloads-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 <!-- [![Coveralls][coveralls-image]][coveralls-url] -->
-[![NPM License][license-image]][npm-url]]
+[![NPM License][license-image]][npm-url]
 
 
 # Install
@@ -71,4 +71,4 @@ linker.run('mysqlCustomClient.subKeys', null, {
 [travis-url]: https://travis-ci.org/Bacra/node-clientlinker-flow-mysql
 [coveralls-image]: https://img.shields.io/coveralls/Bacra/node-clientlinker-flow-mysql.svg
 [coveralls-url]: https://coveralls.io/github/Bacra/node-clientlinker-flow-mysql
-[license-image]: http://img.shields.io/npm/l/clientlinker-flow-mysql.svgg
+[license-image]: http://img.shields.io/npm/l/clientlinker-flow-mysql.svg
