@@ -7,7 +7,8 @@ var ini		= require('ini');
 var debug	= require('debug')('clientlinker-flow-mysql');
 var mysql	= require('mysql');
 
-exports = module.exports = mysqlFlow;
+exports.flow = mysqlFlow;
+exports.methods = methods;
 exports._test = {};
 
 
@@ -50,7 +51,7 @@ function mysqlFlow(runtime, callback)
 		});
 }
 
-exports.methods = function(client)
+function methods(client)
 {
 	return initPool(client)
 		.then(function(pool)
