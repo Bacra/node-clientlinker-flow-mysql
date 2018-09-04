@@ -1,3 +1,5 @@
+'use strict';
+
 var mysqlFlow = require('./mysql');
 
 module.exports = function(flow)
